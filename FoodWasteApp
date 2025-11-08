@@ -1,0 +1,94 @@
+package view;
+
+import controller.FoodWasteManager;
+import model.FoodItem;
+import util.InputValidator;
+
+import java.util.Scanner;
+
+public class FoodWasteApp {
+    public static void main(String[] args) {
+    	
+        Scanner scanner = new Scanner(System.in);
+        FoodWasteManager manager = new FoodWasteManager();
+
+        System.out.println("Welcome to Food Waste Expense Manager!");
+
+        boolean exit = false;
+
+        while (!exit) {
+            System.out.println("\nMenu:");
+            System.out.println("1. Add Food Waste Entry");
+            System.out.println("2. Remove Food Waste Entry");
+            System.out.println("3. Show Report");
+            System.out.println("4. Exit");
+            System.out.print("Choose an option: ");
+
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1":
+                    System.out.print("Enter Food Type (dairy, vegetable, fruit, grain, meat, other): ");
+                    String type = scanner.nextLine();
+                    if (!InputValidator.isValidFoodType(type)) {
+                        System.out.println("Invalid food type.");
+                        break;
+                    }
+
+                    System.out.print("Enter Quantity wasted: ");
+                    String quantityStr = scanner.nextLine();
+                    if (!InputValidator.isPositiveDouble(quantityStr)) {
+                        System.out.println("Invalid quantity.");
+                        break;
+                    }
+                    double quantity = Double.parseDouble(quantityStr);
+
+                    System.out.print("Enter Cost per Unit: ");
+                    String costStr = scanner.nextLine();
+                    if (!InputValidator.isPositiveDouble(costStr)) {
+                        System.out.println("Invalid cost.");
+                        break;
+                    }
+                    double cost = Double.parseDouble(costStr);
+
+                    FoodItem newItem = new FoodItem(type, quantity, cost);
+                    manager.addFoodItem(newItem);
+                    System.out.println("Food waste entry added.");
+                    break;
+
+                case "2":
+                    System.out.println("Current entries:");
+                    int i = 0;
+                    for (FoodItem item : manager.getFoodList()) {
+                        System.out.println(i + ": " + item);
+                        i++;
+                    }
+                    System.out.print("Enter index to remove: ");
+                    String indexStr = scanner.nextLine();
+                    try {
+                        int index = Integer.parseInt(indexStr);
+                        manager.removeFoodItem(index);
+                        System.out.println("Entry removed if index was valid.");
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid index input.");
+                    }
+                    break;
+
+                case "3":
+                    System.out.println(manager.generateReport());
+                    break;
+
+                case "4":
+                    exit = true;
+                    System.out.println("Exiting... Goodbye!");
+                    break;
+
+                default:
+                    System.out.println("Invalid option. Try again.");
+            }
+        }
+
+        scanner.close();
+    }
+}
+
