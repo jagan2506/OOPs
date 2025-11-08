@@ -1,0 +1,46 @@
+package model;
+
+public class FoodItem {
+    private String foodType;
+    private double quantity;
+    private double costPerUnit;
+
+    public FoodItem(String foodType, double quantity, double costPerUnit) {
+        this.foodType = foodType;
+        this.quantity = quantity;
+        this.costPerUnit = costPerUnit;
+    }
+
+    public String getFoodType() {
+        return foodType;
+    }
+
+    public void setFoodType(String foodType) {
+        this.foodType = foodType;
+    }
+
+    public double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
+    }
+
+    public double getCostPerUnit() {
+        return costPerUnit;
+    }
+
+    public void setCostPerUnit(double costPerUnit) {
+        this.costPerUnit = costPerUnit;
+    }
+
+    public double calculateTotalCost() {
+        return quantity * costPerUnit;
+    }
+
+    @Override
+    public String toString() {
+        return "FoodItem [Type=" + foodType + ", Quantity=" + quantity + ", Cost per Unit=" + costPerUnit + "]";
+    }
+}
