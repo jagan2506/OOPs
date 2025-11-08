@@ -1,0 +1,47 @@
+package controller;
+
+import model.FoodItem;
+import java.util.ArrayList;
+import java.util.List;
+
+public class FoodWasteManager {
+    private List<FoodItem> foodList;
+
+    public FoodWasteManager() {
+        this.foodList = new ArrayList<>();
+    }
+
+    public void addFoodItem(FoodItem item) {
+        foodList.add(item);
+    }
+
+    public void removeFoodItem(int index) {
+        if (index >= 0 && index < foodList.size()) {
+            foodList.remove(index);
+        }
+    }
+
+    public double calculateTotalWasteCost() {
+        double total = 0;
+        for (FoodItem item : foodList) {
+            total += item.calculateTotalCost();
+        }
+        return total;
+    }
+
+    public String generateReport() {
+        StringBuilder report = new StringBuilder();
+        report.append("Food Waste Report\n");
+        report.append("-----------------\n");
+        for (FoodItem item : foodList) {
+            report.append(item.toString() + ", Total Cost: " + item.calculateTotalCost() + "\n");
+        }
+        report.append("-----------------\n");
+        report.append("Total Waste Cost: " + calculateTotalWasteCost() + "\n");
+        return report.toString();
+    }
+
+    public List<FoodItem> getFoodList() {
+        return foodList;
+    }
+}
